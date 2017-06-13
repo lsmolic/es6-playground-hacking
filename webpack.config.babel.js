@@ -1,9 +1,10 @@
 import path from 'path'
 import webpack from 'webpack'
+import htmlWebpackPlugin from 'html-webpack-plugin'
 
 const folder = {
-  src: './app/assets/',
-  build: './public/'
+  src: `${__dirname}/app/assets/`,
+  build: `${__dirname}/public/`
 }
 
 let options = {
@@ -16,6 +17,7 @@ let options = {
     loaders: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
           presets: ['es2015']
@@ -23,6 +25,13 @@ let options = {
       }
     ]
   },
+  plugins: [
+    new htmlWebpackPlugin({
+      hash: true,
+      filename: `${folder.build}html/index.html`,
+      template: `${folder.src}html/index.html.ejs`
+    })
+  ],
   stats: {
     colors: true
   },
